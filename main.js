@@ -4,16 +4,13 @@ function init () {
   renderProducts(products);
   generateCategoryList();
   addEventListeners();
-  addChangeItemInCart();
+  addToCart();
 }
-
+   
 function searchProduct () {
   console.log('searchProduct');
 }
 
-function addToCard () {
-  console.log('addToCard');
-}
 
               // Рендерить список продуктів в index
 function renderProducts (list) {
@@ -137,7 +134,8 @@ function renderProductsInCart() {
   document.querySelector('.shopping-cart').innerHTML = cartTemplate;
 }
 
-// Фільтрує масив з продуктами по id. Повертає вибраний товар (на який клікнули)
+// Фільтрує масив з продуктами по id. 
+// Повертає вибраний товар (на який клікнули)
 function getProductById(id) {
   let product = products.find(function(product) {
       if (product.id == id ) {
@@ -149,14 +147,18 @@ function getProductById(id) {
 
 // Додає вибраний товар до масиву корзини (cartProducts) і рендерить його
 // в корзину за допомогою ф-ції renderProductsInCart().
-function addChangeItemInCart() {
+function addToCart() {
   let buttons = document.getElementsByClassName("product-to-cart");
   for (let i = 0; i < buttons.length; i++) {
-      let button = buttons[i];
+    let button = buttons[i];
       button.onclick = function() {
-        let = selectedProduct = getProductById(this.id);
-        cartProducts.push(selectedProduct);
-        renderProductsInCart();
+        let selectedProduct = getProductById(this.id);
+        let ids = [...new Set(cartProducts.map(a => a.id))];
+        if (!ids.includes(selectedProduct.id)){
+            cartProducts.push(selectedProduct);
+            renderProductsInCart();
+        }
       }
   }
 }
+
